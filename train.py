@@ -9,9 +9,13 @@ import cv2
 camera = cv2.VideoCapture(0)
 detector= HandDetector(maxHands=1)
 
-while True:
+while camera.isOpened():
     success, img= camera.read()
     hands, img= detector.findHands(img)
     cv2.imshow("Hand_Alphabet_Translator",img)
-    cv2.waitKey(1)
-    cv2.destroyAllWindows()
+    
+    if cv2.waitKey(25) != -1:
+        break
+
+camera.release()
+cv2.destroyAllWindows()
