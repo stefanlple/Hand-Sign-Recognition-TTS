@@ -3,7 +3,7 @@ from cvzone.HandTrackingModule import HandDetector
 import cv2
 ##pip3 install cvzone
 ##pip3 install numpy
-##pip3 install cv2
+##pip3 install opencv-python
 ##pip3 install pip3 install mediapipe-silicon
 
 camera = cv2.VideoCapture(0)
