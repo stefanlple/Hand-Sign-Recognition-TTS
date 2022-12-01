@@ -1,0 +1,21 @@
+html, body {
+    background: #1d72ba;
+    color: #316769;
+    text-align: center;
+    font-family: monospace;
+}
+
+.button {
+    margin-left: 0.6em;
+    margin-right: 0.5em;
+    border: none;
+    background-color: #e09236;
+    color: white;
+    font-size: 2em;
+    padding: 0.5em 1.5em;
+}
+
+.button:active {
+    background: white;
+    color: #e09236;
+}
