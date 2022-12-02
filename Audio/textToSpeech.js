@@ -1,25 +1,21 @@
-let synth = window.speechSynthesis;
-let utterance = new SpeechSynthesisUtterance("Das ist ein langer Beispieltext, um zu testen, ob pausieren und fortfahren funktioniert");
-
 let context = new AudioContext();
-var sound = new Audio(synth.speak(utterance));
+var sound = new Audio("../speech.mp3");
 let source = context.createMediaElementSource(sound);
 let gain = context.createGain();
+let isPlaying = false;
 
 source.connect(gain);
 gain.connect(context.destination);
 
-gain.gain.value = 10;
+gain.gain.value = 1;
 
 document.querySelector("#playStopButton").addEventListener("click", function(e) {
-    //synth.speak(utterance);
-    sound.play();
-});
-
-document.querySelector("#pauseButton").addEventListener("click", function(e) {
-    //synth.pause();
-});
-
-document.querySelector("#resumeButton").addEventListener("click", function(e) {
-    //synth.resume();
+    if (isPlaying) {
+        sound.pause();
+        e.target.innerHTML = "Play";
+    } else {
+        sound.play();
+        e.target.innerHTML = "Stop";
+    }
+    isPlaying = !isPlaying;
 });
