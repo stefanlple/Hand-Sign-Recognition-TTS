@@ -1,4 +1,5 @@
 /* Websocket */
+let request = "request data";
 const webSocket = new WebSocket("ws://localhost:8765");
 
 webSocket.addEventListener("open", () => {
@@ -42,7 +43,11 @@ function convertToHex(str) {
 var context = new AudioContext();
 let audioArray = [];
 var buf; // Audio buffer
-let request = "request data";
+
+let gain = context.createGain();
+
+
+gain.connect(context.destination);
 
 
 function playByteArray(byteArray) {
@@ -65,7 +70,7 @@ function play() {
     var source = context.createBufferSource();
     source.buffer = buf;
     // Connect to the final output node (the speakers)
-    source.connect(context.destination);
+    source.connect(/*context.destination*/source.connect(gain));
     // Play immediately
     source.start(0);
 }
@@ -77,4 +82,10 @@ document.querySelector("#playStopButton").addEventListener("click", function(e) 
 document.querySelector("#testButton").addEventListener("click", function(e) {
     webSocket.send("test");
  });
+
+ document.querySelector("#gainSlider").addEventListener("input", function(e) {
+    let gainValue = (this.value / 10);
+    document.querySelector("#gainOutput").innerHTML = gainValue + " dB";
+    gain.gain.value = gainValue;
+});
 
