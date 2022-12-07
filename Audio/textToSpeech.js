@@ -4,12 +4,12 @@ const webSocket = new WebSocket("ws://localhost:8765");
 webSocket.addEventListener("open", () => {
     console.log("We are connected!");
 
-    webSocket.send("connected");
+    webSocket.send(request);
 });
 
 webSocket.addEventListener("message", e => {
     console.log(e);
-    if (typeof(e.data) !== "string") {
+    if (e.data instanceof Blob) {
        //console.log(e.data); //blob data
 
        temp = e.data.text().then((value) => { //wait for the value of the text component from the blob to be read
@@ -25,7 +25,7 @@ webSocket.addEventListener("message", e => {
             audioArray[i - 1] = hex; //ignores first element ("")
         }
 
-        console.log(audioArray); //fully decoded array of the whole wav file (ready to use in WebAudio)
+        console.log(audioArray); //fully decoded array of the whole .wav-file (ready to use in WebAudio)
        });
     }
 });
@@ -42,7 +42,7 @@ function convertToHex(str) {
 var context = new AudioContext();
 let audioArray = [];
 var buf; // Audio buffer
-
+let request = "request data";
 
 
 function playByteArray(byteArray) {
@@ -73,4 +73,8 @@ function play() {
 document.querySelector("#playStopButton").addEventListener("click", function(e) {
    playByteArray(audioArray);
 });
+
+document.querySelector("#testButton").addEventListener("click", function(e) {
+    webSocket.send("test");
+ });
 
