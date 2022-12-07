@@ -8,8 +8,6 @@ import asyncio
 
 import base64
 
-import time
-
 engine = pyttsx3.init()
 b64file = None
 newData = False
@@ -56,14 +54,3 @@ async def main():
         await asyncio.Future()
 
 asyncio.run(main())
-"""
-engine = pyttsx3.init()
-
-#voices = engine.getProperty('voices')
-#for voice in voices:
-    #print(voice.id) #alle verfügbaren Stimmen
-
-#engine.say("good morning")
-engine.save_to_file("good morning", 'speech.wav')
-engine.runAndWait()
-"""
