@@ -45,9 +45,11 @@ let audioArray = [];
 var buf; // Audio buffer
 
 let gain = context.createGain();
+let stereoPanner = context.createStereoPanner();
 
 
-gain.connect(context.destination);
+gain.connect(stereoPanner);
+stereoPanner.connect(context.destination);
 
 
 function playByteArray(byteArray) {
@@ -87,5 +89,11 @@ document.querySelector("#testButton").addEventListener("click", function(e) {
     let gainValue = (this.value / 10);
     document.querySelector("#gainOutput").innerHTML = gainValue + " dB";
     gain.gain.value = gainValue;
+});
+
+document.querySelector("#panningSlider").addEventListener("input", function(e) {
+    let panValue = ((this.value - 50) / 50);
+    document.querySelector("#panningOutput").innerHTML = panValue + " LR";
+    stereoPanner.pan.value = panValue;
 });
 

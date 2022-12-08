@@ -29,13 +29,22 @@ def createFile(messageString, filenameString):
 
     print("generated, saved and encoded new .wav-file")
 
-async def handleMessage(websocket):
+#checks if there is any new data (i.e if createFile was called) and sends it
+async def checkNewData(websocket):
     global newData
 
-    if newData:
-        newData = False
-        await websocket.send(b64file)
-        print("sent file")
+    while True:
+        if (newData):
+            print("new Data!")
+            await websocket.send(b64file)
+            print("new Data sent")
+            newData = False
+        await asyncio.sleep(0.5)
+
+
+async def handleMessage(websocket):
+
+    asyncio.ensure_future(checkNewData(websocket))
 
     async for message in websocket:
         print(message)

@@ -1,8 +1,10 @@
 html, body {
     background: #1d72ba;
-    color: #316769;
+    color: #e0d336;
     text-align: center;
     font-family: monospace;
+    padding: 0;
+    margin: 0;
 }
 
 div {
@@ -11,6 +13,10 @@ div {
 
 #gainContainer {
     background: #F79F79;
+}
+
+#panningContainer {
+    background: #5b6f69;
 }
 
 .button {
