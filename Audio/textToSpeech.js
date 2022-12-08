@@ -46,9 +46,10 @@ var buf; // Audio buffer
 
 let gain = context.createGain();
 let stereoPanner = context.createStereoPanner();
+let convolver = context.createConvolver();
 
 
-gain.connect(stereoPanner);
+//gain.connect(stereoPanner);
 stereoPanner.connect(context.destination);
 
 
@@ -75,7 +76,39 @@ function play() {
     source.connect(/*context.destination*/source.connect(gain));
     // Play immediately
     source.start(0);
+    //source.loop = true;
 }
+
+function loadImpulseResponse(name) {
+    if (name !== "none") {
+    fetch("impulseResponses/" + name + ".wav")
+        .then(response => response.arrayBuffer())
+        .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
+        .then(audioBuffer => {
+            if (convolver) {convolver.disconnect();}
+
+            convolver = context.createConvolver();
+            convolver.buffer = audioBuffer;
+            convolver.normalize = true;
+
+            gain.connect(convolver);
+            convolver.connect(stereoPanner);
+        })
+        .catch(console.error);
+    } else {
+        convolver.disconnect()
+        gain.connect(stereoPanner);
+    }
+}
+
+loadImpulseResponse("none");
+
+//resets slider handle positions when (re-)loading
+document.querySelector("#gainSlider").value = 10;
+document.querySelector("#panningSlider").value = 50;
+
+//resets the display of the selected element when (re-)loading
+document.querySelector("#selectList").value = "none";
 
 document.querySelector("#playStopButton").addEventListener("click", function(e) {
    playByteArray(audioArray);
@@ -95,5 +128,10 @@ document.querySelector("#panningSlider").addEventListener("input", function(e) {
     let panValue = ((this.value - 50) / 50);
     document.querySelector("#panningOutput").innerHTML = panValue + " LR";
     stereoPanner.pan.value = panValue;
+});
+
+document.querySelector("#selectList").addEventListener("change", function(e) {
+    let name = e.target.options[e.target.selectedIndex].value;
+    loadImpulseResponse(name);
 });
 

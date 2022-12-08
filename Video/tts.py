@@ -17,6 +17,7 @@ text = "Good afternoon"
 #print(b64file)                      #base64 encoded wav file
 #print(base64.b64decode(b64file))    #base64 decoded wav file ( same as print(open("speech.wav", "rb").read()) )
 
+#call this method to generate, save, encode and send a .wav file from a string
 def createFile(messageString, filenameString):
     engine.save_to_file(messageString, filenameString + '.wav')
     engine.runAndWait()
