@@ -81,22 +81,22 @@ function play() {
 
 function loadImpulseResponse(name) {
     if (name !== "none") {
-    fetch("impulseResponses/" + name + ".wav")
-        .then(response => response.arrayBuffer())
-        .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
-        .then(audioBuffer => {
-            if (convolver) {convolver.disconnect();}
+        fetch("impulseResponses/" + name + ".wav")
+            .then(response => response.arrayBuffer())
+            .then(undecodedAudio => context.decodeAudioData(undecodedAudio))
+            .then(audioBuffer => {
+                if (convolver) {convolver.disconnect();}
 
-            convolver = context.createConvolver();
-            convolver.buffer = audioBuffer;
-            convolver.normalize = true;
+                convolver = context.createConvolver();
+                convolver.buffer = audioBuffer;
+                convolver.normalize = true;
 
-            gain.connect(convolver);
-            convolver.connect(stereoPanner);
-        })
-        .catch(console.error);
+                gain.connect(convolver);
+                convolver.connect(stereoPanner);
+            })
+            .catch(console.error);
     } else {
-        convolver.disconnect()
+        if (convolver) {convolver.disconnect();}
         gain.connect(stereoPanner);
     }
 }
