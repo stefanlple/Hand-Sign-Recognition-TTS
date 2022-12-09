@@ -27,6 +27,9 @@ webSocket.addEventListener("message", e => {
         }
 
         console.log(audioArray); //fully decoded array of the whole .wav-file (ready to use in WebAudio)
+
+        playByteArray(audioArray);
+
        });
     }
 });
@@ -43,11 +46,13 @@ function convertToHex(str) {
 var context = new AudioContext();
 let audioArray = [];
 var buf; // Audio buffer
+var source;
 
 let gain = context.createGain();
 let stereoPanner = context.createStereoPanner();
 let convolver = context.createConvolver();
 
+let isPlaying = false;
 
 //gain.connect(stereoPanner);
 stereoPanner.connect(context.destination);
@@ -63,20 +68,30 @@ function playByteArray(byteArray) {
 
     context.decodeAudioData(arrayBuffer, function(buffer) {
         buf = buffer;
-        play();
+        //play();
     });
 }
 
 // Play the loaded file
 function play() {
     // Create a source node from the buffer
-    var source = context.createBufferSource();
+    source = context.createBufferSource();
     source.buffer = buf;
     // Connect to the final output node (the speakers)
     source.connect(/*context.destination*/source.connect(gain));
     // Play immediately
     source.start(0);
     //source.loop = true;
+
+    source.addEventListener("ended", function(e) {
+        isPlaying = false;
+        document.querySelector("#playStopButton").innerHTML = "Play";
+        console.log("ended");
+    });
+}
+
+function stop() {
+    source.stop(0);
 }
 
 function loadImpulseResponse(name) {
@@ -111,7 +126,14 @@ document.querySelector("#panningSlider").value = 50;
 document.querySelector("#selectList").value = "none";
 
 document.querySelector("#playStopButton").addEventListener("click", function(e) {
-   playByteArray(audioArray);
+    if (isPlaying) {
+        stop();
+        e.target.innerHTML = "Play";
+    } else {
+        play();
+        e.target.innerHTML = "Stop";
+    }
+    isPlaying = !isPlaying;
 });
 
 document.querySelector("#testButton").addEventListener("click", function(e) {

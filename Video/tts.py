@@ -11,7 +11,7 @@ import base64
 engine = pyttsx3.init()
 b64file = None
 newData = False
-text = "Good afternoon"
+text = "This is some long text to test the play and stop functionality of the play-stop-button"
 
 #b64file = base64.b64encode(open("speech.wav", "rb").read()) #encode wav file with base64 for sending
 #print(b64file)                      #base64 encoded wav file
