@@ -45,16 +45,19 @@ function convertToHex(str) {
 /* Web Audio */
 var context = new AudioContext();
 let audioArray = [];
-var buf; // Audio buffer
-var source;
+var buf; //audio buffer
+var source; //contains the current audioBufferSourceNode after its creation
 
 let gain = context.createGain();
 let stereoPanner = context.createStereoPanner();
 let convolver = context.createConvolver();
 
 let isPlaying = false;
+var startTime;
+let elapsedTime = 0; //elapsed time between two button presses
+let totalElapsedTime = 0; //total playtime of the sound
+let stoppedWithButton = false;
 
-//gain.connect(stereoPanner);
 stereoPanner.connect(context.destination);
 
 
@@ -68,30 +71,45 @@ function playByteArray(byteArray) {
 
     context.decodeAudioData(arrayBuffer, function(buffer) {
         buf = buffer;
-        //play();
     });
 }
 
-// Play the loaded file
-function play() {
-    // Create a source node from the buffer
+//play the loaded file (has to be called everytime because the audioBufferSourceNode is a one way use object)
+function play(offset) {
+    //create a source node from the buffer
     source = context.createBufferSource();
     source.buffer = buf;
-    // Connect to the final output node (the speakers)
-    source.connect(/*context.destination*/source.connect(gain));
-    // Play immediately
-    source.start(0);
+    //connect to the gain node
+    source.connect(gain);
+    //play immediately with offset (offset = 0 -> start from beginning)
+    source.start(0, offset);
     //source.loop = true;
+
+    startTime = Date.now();
 
     source.addEventListener("ended", function(e) {
         isPlaying = false;
+
+        if (!stoppedWithButton) {
+            //sound ended because it was fully played
+            elapsedTime = 0;
+            totalElapsedTime = 0;
+        } else {
+            //sound ended because the button was pressed
+            stoppedWithButton = false;
+        }
+        
         document.querySelector("#playStopButton").innerHTML = "Play";
-        console.log("ended");
     });
 }
 
 function stop() {
+    stoppedWithButton = true;
     source.stop(0);
+    elapsedTime = (Date.now() - startTime) / 1000; //elapsed time in seconds
+    //console.log("Elapsed time in seconds: " + elapsedTime);
+    totalElapsedTime = totalElapsedTime + elapsedTime;
+    //console.log("Total elapsed time in seconds: " + totalElapsedTime);
 }
 
 function loadImpulseResponse(name) {
@@ -130,7 +148,7 @@ document.querySelector("#playStopButton").addEventListener("click", function(e) 
         stop();
         e.target.innerHTML = "Play";
     } else {
-        play();
+        play(totalElapsedTime);
         e.target.innerHTML = "Stop";
     }
     isPlaying = !isPlaying;
