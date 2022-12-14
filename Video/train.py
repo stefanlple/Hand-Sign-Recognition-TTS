@@ -35,7 +35,7 @@ while camera.isOpened():
         landmarksPoints= hands[0]
         x,y,width,height= hands[0]["bbox"]
         onlyHand= img[y-offset:y+height+offset,x-offset:x+width+offset]
-        print(landmarksPoints)
+        #print(landmarksPoints)
         #img=cv2.flip(img,1)
         #cvzone.cornerRect(img, hands[0]["bbox"])
         
@@ -63,9 +63,13 @@ while camera.isOpened():
     #cv2.imshow("Hand_Alphabet_Translator",img)
 
 
-    if cv2.waitKey(25) == ord("c"):
+    if cv2.waitKey(1) == ord("c"):
+        print("close window")
         break
     
+    if cv2.waitKey(1) == ord("s"):
+        print("saved")
+        cv2.imwrite(f"{path}/Image_{randomString()}.jpg",whiteImage)
 
 camera.release()
 cv2.destroyAllWindows()
