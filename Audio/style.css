@@ -11,24 +11,68 @@ div {
     font-size: 1.5em;
 }
 
-#selectList {
+/** Reverb */
+#reverbContainer {
+    background: #2e41ac;
+}
+
+/** Gain */
+#gainContainer {
+    background: #9038ef;
+}
+
+/** Panning */
+#panningContainer {
+    background: #bf4d8e;
+}
+
+/** Filter */
+#filter {
+    font-size: 1em;
+}
+
+#filterHead {
+    background: #ff4848;
+    padding: 1.5%;
+    font-size: 2em;
+}
+
+#frequencyContainer {
+    
+    background: #db4a4a;
+    width: 100%;
+}
+
+#detuneContainer {
+    background: #db5a5a;
+    
+    width: 100%;
+}
+
+#qContainer {
+    background: #db6d6d;
+    width: 100%;
+}
+
+#gainContainerFilter {
+    background: #dd8585;
+    width: 100%;
+}
+
+#typeContainer {
+    background: #d69595;
+    width: 100%;
+    
+}
+
+/** all selection lists */
+.selectList {
     font-size: 1em;
     font-family: monospace;
     margin: 1.5%;
 }
 
-#reverbContainer {
-    background: #2e41ac;
-}
-
-#gainContainer {
-    background: #F79F79;
-}
-
-#panningContainer {
-    background: #5b6f69;
-}
-
+/** all buttons */
 .button {
     margin-left: 0.6em;
     margin-right: 0.5em;
@@ -44,6 +88,7 @@ div {
     color: #e09236;
 }
 
+/** all sliders */
 .slider {
     margin: 0;
     -webkit-appearance: none;

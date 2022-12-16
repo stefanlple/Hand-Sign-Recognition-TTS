@@ -10,7 +10,7 @@
         <button id="testButton" class="button">Test</button>
 
         <div id="reverbContainer"> Reverb
-            <select id="selectList">
+            <select id="selectList" class="selectList">
                 <option value="none">None</option>
                 <option value="cave">Cave</option>
                 <option value="church">Church</option>
@@ -27,6 +27,47 @@
         <div id="panningContainer"> Panning
             <input type="range" min="0" max="100" value="50" class="slider" id="panningSlider">
             <span id="panningOutput">0 LR</span>
+        </div>
+
+        <div id="filter">
+
+            <div id="filterHead">
+                Filter
+            </div>
+
+            <div id="frequencyContainer">Frequency
+                <input type="range" min="1000" max="20000" value="1000" class="slider" id="frequencySlider">
+                <span id="frequencyOutput">1000 Hz</span>
+            </div>
+    
+            <div id="detuneContainer">Detune
+                <input type="range" min="0" max="100" value="0" class="slider" id="detuneSlider">
+                <span id="detuneOutput">0 cents</span>
+            </div>
+    
+            <div id="qContainer">Quality
+                <input type="range" min="0" max="100" value="0" class="slider" id="qSlider">
+                <span id="qOutput">0</span>
+            </div>
+            
+            <div id="gainContainerFilter">Gain
+                <input type="range" min="-40" max="40" value="0" class="slider" id="gainSliderFilter">
+                <span id="gainOutputFilter">0 dB</span>
+            </div>
+    
+            <div id="typeContainer">Type
+                <select id="selectListFilter" class="selectList">
+                    <option value="lowpass">Lowpass</option>
+                    <option value="highpass">Highpass</option>
+                    <option value="bandpass">Bandpass</option>
+                    <option value="allpass">Allpass</option>
+                    <option value="lowshelf">Lowshelf</option>
+                    <option value="highshelf">Highshelf</option>
+                    <option value="peaking">Peaking</option>
+                    <option value="notch">Notch</option>
+                </select>
+            </div>
+            
         </div>
         
         <script src="textToSpeech.js"></script>
