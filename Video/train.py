@@ -15,10 +15,11 @@ camera = cv2.VideoCapture(0)
 detector= cvzone.HandTrackingModule.HandDetector(detectionCon=0.8,maxHands=1)
 fpsReader = cvzone.FPS()
 
-path="Data/A"
+path="Data/train/Delete"
 offset=20
 imgSize=800
-
+alphabet=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+counter=0
 
 def randomString(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -60,16 +61,24 @@ while camera.isOpened():
         cv2.imshow("White",whiteImage)
         cv2.imshow("OnlyHand",onlyHand)
     #cv2.imshow("White",whiteImage)
-    #cv2.imshow("Hand_Alphabet_Translator",img)
+    cv2.imshow("Hand_Alphabet_Translator",img)
 
+
+    if cv2.waitKey(1) == ord("w"):
+        nextLetter= alphabet[alphabet.index(path[-1:])+1]
+        path="Data/train/" + nextLetter
+        counter=0
+    
+    print(path + " " + str(counter))
 
     if cv2.waitKey(1) == ord("c"):
         print("close window")
         break
     
-    if cv2.waitKey(1) == ord("s"):
+    if cv2.waitKey(100) == ord("s"):
         print("saved")
         cv2.imwrite(f"{path}/Image_{randomString()}.jpg",whiteImage)
+        counter+=1
 
 camera.release()
 cv2.destroyAllWindows()
