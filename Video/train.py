@@ -6,6 +6,7 @@ import math
 import random
 import string
 #import mediapipe as mp
+
 ##pip3 install cvzone
 ##pip3 install numpy
 ##pip3 install opencv-python
