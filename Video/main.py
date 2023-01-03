@@ -70,6 +70,7 @@ while camera.isOpened():
         cv2.putText(mainImg, classes[index],(x+100,y-85), cv2.FONT_ITALIC, 3 , (255,0,0),5)
         cv2.rectangle(mainImg,(x-offset-50,y-offset-50),(x+offset+width+50,y+offset+height+50),(255,0,0),4)
     #cv2.imshow("White",whiteImage)
+    cv2.putText(mainImg, message,(00,60), cv2.FONT_HERSHEY_SIMPLEX, 2 , (255,255,255),5)
     cv2.imshow("Webcam",mainImg)
 
     
@@ -78,11 +79,11 @@ while camera.isOpened():
         print("close window")
         break
         
-    if cv2.waitKey(1) == ord(" "):
+    if cv2.waitKey(25) == ord(" "):
         message+=str(classes[index])
     
-    if cv2.waitKey(1) == 127: #delete key
-        message[:-1]
+    if cv2.waitKey(25) == 127: #delete key
+        message=message[:-1]
     print(message)
 camera.release()
 cv2.destroyAllWindows()
