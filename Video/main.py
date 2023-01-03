@@ -50,7 +50,7 @@ while camera.isOpened():
             imageResized= imgResize.shape
             widthGap=math.ceil((imgSize-calculatedWidth)/2)
             whiteImage[:,widthGap:calculatedWidth+widthGap]=imgResize
-            prediction, index= classifier.getPrediction(img)
+            prediction, index= classifier.getPrediction(whiteImage)
             print(prediction,index)
         
         else:
@@ -60,10 +60,12 @@ while camera.isOpened():
             imageResized= imgResize.shape
             heightGap=math.ceil((imgSize-calculatedHeight)/2)
             whiteImage[heightGap:calculatedHeight+heightGap,:]=imgResize
+            prediction, index= classifier.getPrediction(whiteImage)
+            print(prediction,index)
         cv2.imshow("White",whiteImage)
         #cv2.imshow("OnlyHand",onlyHand)
     #cv2.imshow("White",whiteImage)
-    cv2.imshow("Hand_Alphabet_Translator",img)
+    cv2.imshow("Webcam",img)
 
     
 
