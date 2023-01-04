@@ -16,7 +16,8 @@ camera = cv2.VideoCapture(0)
 detector= cvzone.HandTrackingModule.HandDetector(detectionCon=0.8,maxHands=1)
 fpsReader = cvzone.FPS()
 
-path="Data/train/Delete"
+#path="Data/train/Delete"
+path="Data/vinzent/A"
 offset=20
 imgSize=800
 alphabet=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -67,7 +68,9 @@ while camera.isOpened():
 
     if cv2.waitKey(1) == ord("w"):
         nextLetter= alphabet[alphabet.index(path[-1:])+1]
-        path="Data/train/" + nextLetter
+        #path="Data/train/" + nextLetter
+        path="Data/vinzent/" + nextLetter
+        #path="Data/vinzent/Space"
         counter=0
     
     print(path + " " + str(counter))
