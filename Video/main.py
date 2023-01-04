@@ -52,7 +52,7 @@ while camera.isOpened():
                 imageResized= imgResize.shape
                 widthGap=math.ceil((imgSize-calculatedWidth)/2)
                 whiteImage[:,widthGap:calculatedWidth+widthGap]=imgResize
-                prediction, index= classifier.getPrediction(whiteImage)
+                prediction, index= classifier.getPrediction(whiteImage,draw=False)
             
             else:
                 k=imgSize/width
@@ -61,13 +61,16 @@ while camera.isOpened():
                 imageResized= imgResize.shape
                 heightGap=math.ceil((imgSize-calculatedHeight)/2)
                 whiteImage[heightGap:calculatedHeight+heightGap,:]=imgResize
-                prediction, index= classifier.getPrediction(whiteImage)
+                prediction, index= classifier.getPrediction(whiteImage,draw=False)
         except:
             print("resize failed")
         #print(prediction,index)
         cv2.imshow("White",whiteImage)
         #cv2.imshow("OnlyHand",onlyHand)
-        cv2.putText(mainImg, classes[index],(x+100,y-85), cv2.FONT_ITALIC, 3 , (255,0,0),5)
+        if(classes[index]==" "):
+            cv2.putText(mainImg, "Space",(x+100,y-85), cv2.FONT_ITALIC, 3 , (255,0,0),5)
+        else:
+            cv2.putText(mainImg, classes[index],(x+100,y-85), cv2.FONT_ITALIC, 3 , (255,0,0),5)
         cv2.rectangle(mainImg,(x-offset-50,y-offset-50),(x+offset+width+50,y+offset+height+50),(255,0,0),4)
     #cv2.imshow("White",whiteImage)
     cv2.putText(mainImg, message,(00,60), cv2.FONT_HERSHEY_SIMPLEX, 2 , (255,255,255),5)
