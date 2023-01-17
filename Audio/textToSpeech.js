@@ -203,7 +203,7 @@ document.querySelector("#detuneSlider").addEventListener("mousemove", function(e
 document.querySelector("#qSlider").addEventListener("mousemove", function(e) {
     let qValue = (this.value);
     document.querySelector("#qOutput").innerHTML = qValue + " ";
-    filter.Q.value = detuneValue;
+    filter.Q.value = qValue;
 });
 
 document.querySelector("#gainSliderFilter").addEventListener("mousemove", function(e) {
