@@ -28,6 +28,9 @@ webSocket.addEventListener("message", e => {
 
         console.log(audioArray); //fully decoded array of the whole .wav-file (ready to use in WebAudio)
 
+        elapsedTime = 0;
+        totalElapsedTime = 0;
+
         playByteArray(audioArray);
 
        });
