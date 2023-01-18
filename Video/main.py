@@ -15,7 +15,38 @@ import string
 #pip3 install tensorflow-macos==2.9.1 #pip3 install tensorflow==2.9.1
 import asyncio
 
+classes= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', " "]
+message=""
+index = None
+
+camera = None
+
+def mouseCallback(event, x, y, flags, param):
+    global message
+    global classes
+    global index
+    global camera
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        #print("clicked")
+        if y <= 50:
+            #print("clicked in button area")
+            if x < math.ceil(param.shape[1] / 4) - 10:
+                #print("first button")
+                message+=str(classes[index])
+            elif x > math.ceil(param.shape[1] / 4) and x < math.ceil(param.shape[1] / 2) - 10:
+                #print("second button")
+                message=message[:-1]
+            elif x > math.ceil(param.shape[1] / 2) and x < math.ceil(3 * (param.shape[1] / 4)) - 10:
+                #print("third button")
+                createFile(message, "speech")
+            elif x > math.ceil(3 * (param.shape[1] / 4)) and x < param.shape[1]:
+                #print("fourth button")
+                camera.release()
+                cv2.destroyAllWindows()
+
+
 async def videoMain():
+    global camera
     camera = cv2.VideoCapture(0)
     detector= cvzone.HandTrackingModule.HandDetector(detectionCon=0.8,maxHands=1)
     classifier= Classifier("Model/keras_model.h5","AlphabetReferences/classes.txt")
@@ -24,12 +55,15 @@ async def videoMain():
     offset=20
     imgSize=800
 
-    classes= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', " "]
+    #classes= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', " "]
 
-    message=""
+    #message=""
 
     while camera.isOpened():
         await asyncio.sleep(0.01)
+        global message
+        global classes
+        global index
         #print(randomString(10))
         success, img= camera.read()
         mainImg=img.copy()
@@ -76,11 +110,37 @@ async def videoMain():
                 cv2.putText(mainImg, classes[index],(x+100,y-85), cv2.FONT_ITALIC, 3 , (255,0,0),5)
             cv2.rectangle(mainImg,(x-offset-50,y-offset-50),(x+offset+width+50,y+offset+height+50),(255,0,0),4)
         #cv2.imshow("White",whiteImage)
-        cv2.putText(mainImg, message,(00,60), cv2.FONT_HERSHEY_SIMPLEX, 2 , (255,255,255),5)
+        cv2.putText(mainImg, message,(00,100), cv2.FONT_HERSHEY_SIMPLEX, 2 , (255,255,255),5)
+
+        #first button
+        for x in range(0, math.ceil(mainImg.shape[1] / 4) - 10):
+            for y in range(0, 50):
+                mainImg[y][x] = [192, 192, 192]
+        cv2.putText(mainImg, "Add", (math.ceil(mainImg.shape[1] / 8) - 30, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+
+        #second button
+        for x in range(math.ceil(mainImg.shape[1] / 4), math.ceil(mainImg.shape[1] / 2) - 10):
+            for y in range(0, 50):
+                mainImg[y][x] = [192, 192, 192]
+        cv2.putText(mainImg, "Remove", (math.ceil(mainImg.shape[1] / 4) + 12, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+
+        #third button
+        for x in range(math.ceil(mainImg.shape[1] / 2), math.ceil(3 * (mainImg.shape[1] / 4)) - 10):
+            for y in range(0, 50):
+                mainImg[y][x] = [192, 192, 192]
+        cv2.putText(mainImg, "Send", (math.ceil(mainImg.shape[1] / 2) + 37, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+
+        #fourth button
+        for x in range(math.ceil(3 * (mainImg.shape[1] / 4)), mainImg.shape[1]):
+            for y in range(0, 50):
+                mainImg[y][x] = [192, 192, 192]
+        cv2.putText(mainImg, "Quit", (mainImg.shape[1] - 112, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+
         cv2.imshow("Webcam",mainImg)
 
-        
+        cv2.setMouseCallback("Webcam", mouseCallback, mainImg)
 
+        """
         if cv2.waitKey(1) == ord("c"):
             print("close window")
             break
@@ -93,6 +153,9 @@ async def videoMain():
 
         if cv2.waitKey(25) == 13:
             createFile(message, "speech")
+        """        
+
+        cv2.waitKey(1)
 
         print(message)
     camera.release()
