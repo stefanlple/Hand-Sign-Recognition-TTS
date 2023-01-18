@@ -26,8 +26,8 @@ def mouseCallback(event, x, y, flags, param):
     global classes
     global index
     global camera
-    if event == cv2.EVENT_LBUTTONDBLCLK:
-        #print("clicked")
+    if event == cv2.EVENT_LBUTTONDOWN:
+        print("clicked")
         if y <= 50:
             #print("clicked in button area")
             if x < math.ceil(param.shape[1] / 4) - 10:
@@ -122,19 +122,19 @@ async def videoMain():
         for x in range(math.ceil(mainImg.shape[1] / 4), math.ceil(mainImg.shape[1] / 2) - 10):
             for y in range(0, 50):
                 mainImg[y][x] = [192, 192, 192]
-        cv2.putText(mainImg, "Remove", (math.ceil(mainImg.shape[1] / 4) + 12, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+        cv2.putText(mainImg, "Remove", (math.ceil(mainImg.shape[1] / 4) + 180, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
 
         #third button
         for x in range(math.ceil(mainImg.shape[1] / 2), math.ceil(3 * (mainImg.shape[1] / 4)) - 10):
             for y in range(0, 50):
                 mainImg[y][x] = [192, 192, 192]
-        cv2.putText(mainImg, "Send", (math.ceil(mainImg.shape[1] / 2) + 37, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+        cv2.putText(mainImg, "Send", (math.ceil(mainImg.shape[1] / 2) +190 , 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
 
         #fourth button
-        for x in range(math.ceil(3 * (mainImg.shape[1] / 4)), mainImg.shape[1]):
+        for x in range(math.ceil(3 * (mainImg.shape[1] / 4)+37), mainImg.shape[1]):
             for y in range(0, 50):
                 mainImg[y][x] = [192, 192, 192]
-        cv2.putText(mainImg, "Quit", (mainImg.shape[1] - 112, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
+        cv2.putText(mainImg, "Quit", (mainImg.shape[1]-250, 35), cv2.FONT_HERSHEY_SIMPLEX, 1 , (255,255,255), 2)
 
         cv2.imshow("Webcam",mainImg)
 
@@ -157,7 +157,7 @@ async def videoMain():
 
         cv2.waitKey(1)
 
-        print(message)
+        #print(message)
     camera.release()
     cv2.destroyAllWindows()
 
