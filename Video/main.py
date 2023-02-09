@@ -162,14 +162,6 @@ async def videoMain():
     cv2.destroyAllWindows()
 
 
-
-
-
-
-
-
-
-
 import pyttsx3
 #pip install pyttsx3
 #bei Fehler in sapi5.py token hardcoden
