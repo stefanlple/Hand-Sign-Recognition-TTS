@@ -1,5 +1,7 @@
 # Hand-Sign-Recognition-TTS
 
+Project with a partner
+
 An Python and Javascript project that lets users translate handsign language into speech. The model recognizes the hand sign alphabet. Users can concatenate an string and translate it into speech.   
 
 Built with OpenCV, Keras(Tensorflow) and Mediapipe
